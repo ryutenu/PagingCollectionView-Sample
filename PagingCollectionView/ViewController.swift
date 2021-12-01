@@ -1,6 +1,9 @@
 import UIKit
 
 final class ViewController: UICollectionViewController {
+    
+    private let pageCount = 5
+    
     private var cellSize: CGSize {
         let width = collectionView.bounds.width * 0.8
         let height = width * Cell.aspectRatio
@@ -21,17 +24,13 @@ final class ViewController: UICollectionViewController {
     }
     
     override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return 5
+        return pageCount
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
         cell.label.text = "\(indexPath.row)"
         return cell
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind _: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header", for: indexPath)
     }
 }
 
