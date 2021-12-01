@@ -1,13 +1,13 @@
 import UIKit
 
 final class FlowLayout: UICollectionViewFlowLayout {
-
+    
     private var layoutAttributesForPaging: [UICollectionViewLayoutAttributes]?
-
+    
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         guard let collectionView = collectionView else { return proposedContentOffset }
         guard let targetAttributes = layoutAttributesForPaging else { return proposedContentOffset }
-
+        
         let nextAttributes: UICollectionViewLayoutAttributes?
         if velocity.x == 0 {
             // スワイプせずに指を離した場合は、画面中央から一番近い要素を取得する
@@ -20,7 +20,7 @@ final class FlowLayout: UICollectionViewFlowLayout {
             nextAttributes = targetAttributes.first
         }
         guard let attributes = nextAttributes else { return proposedContentOffset }
-
+        
         if attributes.representedElementKind == UICollectionView.elementKindSectionHeader {
             // ヘッダーの場合は先頭の座標を返す
             return CGPoint(x: 0, y: collectionView.contentOffset.y)
@@ -30,7 +30,7 @@ final class FlowLayout: UICollectionViewFlowLayout {
             return CGPoint(x: attributes.frame.minX - cellLeftMargin, y: collectionView.contentOffset.y)
         }
     }
-
+    
     // 画面中央に一番近いセルの attributes を取得する
     private func layoutAttributesForNearbyCenterX(in attributes: [UICollectionViewLayoutAttributes], collectionView: UICollectionView) -> UICollectionViewLayoutAttributes? {
         let screenCenterX = collectionView.contentOffset.x + collectionView.bounds.width * 0.5
@@ -40,7 +40,7 @@ final class FlowLayout: UICollectionViewFlowLayout {
         }
         return result.attributes
     }
-
+    
     // UIScrollViewDelegate scrollViewWillBeginDragging から呼ぶ
     func prepareForPaging() {
         // 1ページずつページングさせるために、あらかじめ表示されている attributes の配列を取得しておく
